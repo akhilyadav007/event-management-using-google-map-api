@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  db:
+    image: nouchka/sqlite3:latest
+    volumes:
+      - ./db:/root/db
+    stdin_open: true
+    tty: true
+  redis:
+    image: redis
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/event-management
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_URL_CACHING=redis://redis:6379/0
+
+volumes:
+  redis:

@@ -1,0 +1,15 @@
+<h1>New event</h1>
+
+<%= render "form", event: @event %>
+
+<% if @event.errors[:end_date_time].any? %>
+  <div class="alert alert-danger">
+    <%= @event.errors[:end_date_time].first %>
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to events", events_path %>
+</div>

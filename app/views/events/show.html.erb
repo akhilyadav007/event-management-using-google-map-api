@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-5 py-5 offset-md-1">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          Event Title:
+        </div>
+        <div class="col-md-6">
+          <%= @event.name %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          Event description:
+        </div>
+        <div class="col-md-6">
+          <%= @event.description%>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          Schedule:
+        </div>
+        <div class="col-md-6">
+        <h6 class="card-subtitle mb-2 text-muted"><%= schedule(@event.start_date_time, @event.end_date_time) %></h6>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          Venue:
+        </div>
+        <div class="col-md-6">
+          <%= @event.address %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <% if @event.user_id == current_user.id %>
+        <div class="col-md-6">
+          <%= link_to 'Edit Event', edit_event_path(@event), class: 'btn btn-outline-primary my-3' %>
+        </div>
+        <div class="col-md-6">
+          <%= button_to 'Delete Event', event_path(@event),  method: :delete,class: 'btn btn-outline-danger my-3' %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-md-6" data-controller="events">
+      <div class="col-md-6">
+        <input type="hidden" data-events-target="lat" value="<%= @event.event_location&.lat.to_f %>">
+        <input type="hidden" data-events-target="lng" value="<%= @event.event_location&.lng.to_f %>">
+      </div>
+      <div class="col-md-6" data-events-target="direction" style="height: 400px">
+
+      </div>
+    </div>
+  </div>
+</div>

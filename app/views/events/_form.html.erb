@@ -1,0 +1,69 @@
+<%= form_with(model: event, class: "py-3", data: {controller: "locations", action: "google-maps-callback@window->locations#initMap" }) do |f| %>
+  <% if event.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <div class='row'>
+    <div class="col-md-6">
+      <div class='row'>
+        <div class="mb-3"> 
+          <%= f.label :title, class: "form-label" %>
+          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control', required: true %>
+        </div> 
+      </div>
+
+      <div class='row'>
+        <div class="mb-3">
+          <%= f.label :description, class: "form-label" %>
+          <%= f.text_area :description, autofocus: true, autocomplete: "description", class: 'form-control' %>
+        </div>
+      </div>
+      
+      <%= f.fields_for(:event_location) do |el| %>
+        <div class='row'>
+          <div class="mb-3">
+            <%= el.label :venue, class: "form-label" %>
+            <%= el.search_field :address, autofocus: true, autocomplete: "address", class: 'form-control', required: true, data: { target: 'locations.field'} %>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class="col-md-6 mb-3">
+            <%= el.label :latitude, class: "form-label" %>
+            <%= el.text_field :lat, autofocus: true, autocomplete: "latitude", class: 'form-control', required: true, data: { target: 'locations.latitude'} %>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <%= el.label :longitude, class: "form-label" %>
+            <%= el.text_field :lng, autofocus: true, autocomplete: "longitude", class: 'form-control', required: true, data: { target: 'locations.longitude'} %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class='row'>
+        <div class="col-md-6 mb-3">
+          <%= f.label :start_time, class: "form-label" %>
+          <%= f.datetime_field :start_date_time, autofocus: true, autocomplete: "start_date_time", required: true, class: 'form-control', min: DateTime.now, step: 'any' %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= f.label :end_time, class: "form-label" %>
+          <%= f.datetime_field :end_date_time, autofocus: true, autocomplete: "end_date_time", required: true, class: 'form-control', min: DateTime.now, step: 'any' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 pt-4">
+      <div data-locations-target= "map" style="height:400px"></div>
+    </div>
+  </div>
+  <%= f.submit class: "btn btn-primary mb-4"%>
+<% end %>
+

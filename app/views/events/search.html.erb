@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Search results of: <%= params[:search]%></h1>
+
+<div id="events" class="row">
+  <% if @events.present? %>
+    <% @events.each do |event| %>
+      <%= render event %>
+    <% end %>
+  <% else %>
+    <p><h3>No results found</h3></p>
+  <% end %>
+</div>

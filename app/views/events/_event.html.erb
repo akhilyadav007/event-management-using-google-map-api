@@ -1,0 +1,19 @@
+<%# Include EventsHelper or ApplicationHelper %>
+<%# include EventsHelper %>
+<%# include ApplicationHelper %>
+
+<div id="<%= dom_id event %>" class="p-3 col-md-4">
+  <div class="card" style="width: 22rem;">
+    <div class="card-body">
+      <h5 class="card-title"><%= event.name %></h5>
+      <h6 class="card-subtitle mb-2 text-muted"><%= schedule(event.start_date_time, event.end_date_time) %></h6>
+      <p class="card-text py-3" style="max-height: 100px; overflow: hidden;"> <!-- Added py-3 class here -->
+        <%= truncate(event.description, length: 30, separator: ' ', omission: '...') %>
+      </p>
+      <a href="#" class="card-link"><%= link_to "View", event_path(event.id) %></a>
+      <% if event.user_id == current_user.id %>
+        <a href="#" class="card-link"><%= link_to "Edit", edit_event_path(event.id) %></a>
+      <% end %>
+    </div>
+  </div>
+</div>
